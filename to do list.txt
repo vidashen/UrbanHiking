@@ -1,0 +1,14 @@
+
+
+待解决的功能:
+
+- show/hide layers
+- pop up 
+
+
+解决 啦
+
+value = undefined???
+
+
+参考week 10的课件就可以
