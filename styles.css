@@ -105,9 +105,12 @@ img {
 
 #chapters {
     margin: 100px 20px;
-    height: 600px;
+    width: 400px;
+    height: 550px;
     overflow-y: scroll;
     overflow-x: hidden;
+    left: 1340px;
+    top: 0px;
 }
 
 
@@ -274,3 +277,25 @@ img {
 #layers-control a.active:hover {
     background: #2D456B; 
 }
+
+ul.nav {
+  list-style-type: none;
+}
+
+ul.nav > li {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+ul.nav>li>a.navlink {
+
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+
+}
+
+ul.nav>li>a.navlink:hover {
+  color: green;
+}
+

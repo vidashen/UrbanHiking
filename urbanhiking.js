@@ -186,7 +186,7 @@ for (i=0; i<layers.length; i++) {
         'fishermans-wharf': {
             name: "Fisherman's Wharf",
             description: "Fisherman’s Wharf, on the northern waterfront, is one of the city's busiest tourist areas. Souvenir shops and stalls selling crab and clam chowder in sourdough bread bowls appear at every turn, as do postcard views of the bay, Golden Gate and Alcatraz. There’s also a colony of sea lions to see and historic ships to tour. At Ghirardelli Square, boutiques and eateries reside in the famed former chocolate factory.",
-            imagepath: "img/Fisherman's Wharf.jpg",
+            imagepath: "img/Wharf.jpg",
             bearing: -36.57,
             center: [ -122.418, 37.807],
             zoom: 15.32,
@@ -194,11 +194,10 @@ for (i=0; i<layers.length; i++) {
         }
     };
 
-    console.log(chapters['darden-towe']['name']);
-    console.log(Object.keys(chapters)[0]);
 
     // Add the chapters to the #chapters div on the webpage
     for (var key in chapters) {
+        console.log(key);
         var newChapter = $("<div class='chapter' id='" + key + "'></div>").appendTo("#chapters");
         var chapterHTML = $("<h2>" + chapters[key]['name'] + "</h2><img src='" + chapters[key]['imagepath'] + "'><p>" + chapters[key]['description'] + "</p>").appendTo(newChapter);
     }
