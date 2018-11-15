@@ -19,13 +19,18 @@
   <div class='map-overlay' id='features' ss-container>
     <h3>URBAN HIKING IN SAN FRANCISCO!</h3>
     <h5>Open on Nov. 16 - 18 </h5>
-    <p>f you use some client Framework, like Angular, Aurelia, etc - or any library that includes DOMElements dynamically in your app, and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you. and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you.and you want to use the SimpleScrollbar ss-container attribute, you can use the</p>
+    <p>Urban hikes are the rustic yet still cool cousin of walking: they normally follow a trail, often begin at a lower elevation and end at a higher one, and they're longer and way more strenuous than your typical saunter to the corner for a cup of coffee. With more people getting into urban hiking as a new way to explore their own cities or to discover new ones, meet-up groups are spawning and city governments are mapping out urban trails. Ready to get hiking? We’ve compiled a list of the best cities and places to hit the pavement with purpose. </p>
     <img src="Ding.jpg">
-    <p>SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you.and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you and you want to use the SimpleScrollbar ss-container attribute, you can use the SimpleScrollbar.initAll method, and it will turn all the elements with that attribute in a scrollable one for you.</p>
-    <div id='info-window-body'>
-      <p>some description in future.</p>
-    </div>
+    <h4> San Francisco, California </h4>
+    <p>Streetcars are for wimps and tourists. If you’re up for the challenge, San Francisco's seismic hills will set your calves ablaze. The architecture, gardens and wild people watching here will make any road you wander down a true adventure. Start with the no-brainer walk across the Golden Gate Bridge and take in sweeping views of the city skyline, Alcatraz and Angel Island. Looking for more nature? Jump on the gorgeous 10.5 mile California Coast Trail. You won’t regret it.</p>
   </div>
+
+  <div class='map-overlay' id='chapters' ss-container>
+    <h3>ZOOM IN WHY WHY WHY NOT WORKING</h3>
+  </div>
+
+
+
 
   <button id="about" class='button-default'>About Urban Hiking</button>
 
@@ -34,17 +39,33 @@
   <div class='modal'>
     
     <h2 class='modal-title'>About Urban Hiking</h2>
-    
-    <div class='modal-body'><p>Our mission is to empower use of data. At DataSF, we seek to transform the way the City works through the use of data. We believe use of data and evidence can improve our operations and the services we provide. This ultimately leads to increased quality of life and work for San Francisco residents, employers, employees and visitors.</p><p>Map data from DataSF <a href='https://data.sfgov.org/'>Mapbox Studio</a> and the <a href='http://www.charlottesville.org/online-services/maps-and-gis-data'>City of San Francisco</a></p><p>For questions or to improve this map, contact <a href='mailto:ah2th@virginia.edu'>Vida Shen</a></p></div>
+    <div class='modal-body'><p>Urban hiking started centuries ago as a necessity: If you wanted to go somewhere, you had to walk. "Hiking" wasn't for fun. Then, as most people used cars or public transportation to get around in the city, they regarded "hiking" as a pleasant activity to be done somewhere else, in a natural area.</p><p>Our map data are from DataSF <a href='https://data.sfgov.org/'>Mapbox Studio</a> and the <a href='http://www.charlottesville.org/online-services/maps-and-gis-data'>City of San Francisco</a></p><p>For questions or to improve this map, contact <a href='mailto:ah2th@virginia.edu'>Vida Shen</a></p></div>
 
     <button class='close-button'>&times;</button>
    </div>
+
    <div id="screen"></div> <!-- Black overlay behind the modal -->
 
 
+  <div class='map-overlay' id='color-changer'>
+    <div>
+      <label>Bus stops:</label>
+      <div id='swatches'></div>
+    </div>
+  </div>
+
+  <!-- Map legend (populated by javascript code) -->
   <div class='map-overlay' id='legend'></div>
 
-  <div id='layers-control'></div>
+  <!-- Info window (populated by javascript code from the Mapbox map layers) -->
+  <div class='map-overlay' id='info-window'>
+    <div>
+      <h2>San Francisco Parks and Arts</h2>
+      <div id='info-window-body'>
+        <p>Click on a park to learn more about it.</p>
+      </div>
+    </div>
+  </div>
 
 </body>
 <script src="urbanhiking.js"></script>

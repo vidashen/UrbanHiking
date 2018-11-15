@@ -103,6 +103,14 @@ img {
   font-family: Arial;
 }
 
+#chapters {
+    margin: 100px 20px;
+    height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
 #map {
 	position: fixed;
 	top: 0;
@@ -122,6 +130,8 @@ img {
     z-index: 1;
     display: none;
 }
+
+
 
 .modal {
     display: none;
@@ -205,10 +215,12 @@ img {
 }
 
 #info-window {
-    left: 40%;
-    bottom: 0;
-    width: 30vw;
+    left: 70%;
+    bottom: 20;
+    width: 20vw;
+    padding: 10px 20px;
 }
+
 
 .mapboxgl-popup-content {
     font-family: Arial;

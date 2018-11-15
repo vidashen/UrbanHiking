@@ -1,12 +1,12 @@
 // Initialize map
-mapboxgl.accessToken = 'pk.eyJ1IjoidmlkYXNoZW4iLCJhIjoiY2pscHRlMjdmMGVodzNrcm16ZG50Y2h5MCJ9.Geptc9bTEduKQp3Jtcfavg'; // replace this value with your own access token from Mapbox Studio
+mapboxgl.accessToken = 'pk.eyJ1IjoidmlkYXNoZW4iLCJhIjoiY2pscHRlMjdmMGVodzNrcm16ZG50Y2h5MCJ9.Geptc9bTEduKQp3Jtcfavg'; 
 
 var map = new mapboxgl.Map({
-	container: 'map', // this is the ID of the div in index.html where the map should go
-    center: [-122.410,37.794], // set the centerpoint of the map programatically. Note that this is [longitude, latitude]!
-    zoom: 12, // set the default zoom programatically
-	style: 'mapbox://styles/vidashen/cjoegu4c21ubw2rjyz0px4kbi', // replace this value with the style URL from Mapbox Studio
-	customAttribution: 'DataSF (https://data.sfgov.org/)', // Custom text used to attribute data source(s)
+	container: 'map', 
+    center: [-122.410,37.794], 
+    zoom: 12, 
+	style: 'mapbox://styles/vidashen/cjoegu4c21ubw2rjyz0px4kbi', 
+	customAttribution: 'DataSF (https://data.sfgov.org/)', 
 });
 
 // Show modal when About button is clicked
@@ -22,23 +22,21 @@ $(".modal>.close-button").on('click', function() { // Click event handler for th
 
 
 
-
-
 // Legend
 var layers = [ // an array of the possible values you want to show in your legend
-    '<3',
-    '3-5',
-    '6-7',
-    '8-110',
-    '>10'
+    '0 ft pedestrian',
+    '6 ft pedestrian',
+    '8 ft pedestrian',
+    '10 ft pedestrian',
+    '12 ft pedestrian'
 ];
 
 var colors = [ // an array of the color values for each legend item
-    '#FFEA2C',
-    '#EFD800',
-    '#CCB800',
-    '#B7A500',
-    '#8E7D00'
+    '#ef4647',
+    '#f3af1c',
+    '#6ebe46',
+    '#7dd0de',
+    '#4170b7'
 ];
 
 // for loop to create individual legend items
@@ -59,16 +57,16 @@ for (i=0; i<layers.length; i++) {
     map.on('mousemove', function(e) {   // Event listener to do some code when the mouse moves, see https://www.mapbox.com/mapbox-gl-js/api/#events. 
 
         var parks = map.queryRenderedFeatures(e.point, {    
-            layers: ['cville-parks']    // replace 'cville-parks' with the name of the layer you want to query (from your Mapbox Studio map, the name in the layers panel). For more info on queryRenderedFeatures, see the example at https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/. Documentation at https://www.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures.
+            layers: ['recreation-and-parks-faciliti-16tbnc']    // replace 'cville-parks' with the name of the layer you want to query (from your Mapbox Studio map, the name in the layers panel). For more info on queryRenderedFeatures, see the example at https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/. Documentation at https://www.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures.
         });
               
         if (parks.length > 0) {   // if statement to make sure the following code is only added to the info window if the mouse moves over a state
 
-            $('#info-window-body').html('<h3><strong>' + parks[0].properties.PARKNAME + '</strong></h3><p>' + parks[0].properties.PARK_TYPE + ' PARK</p><img class="park-image" src="img/' + parks[0].properties.PARKNAME + '.jpg">');
+            $('#info-window-body').html('<h3><strong>' + parks[0].properties.map_label + '</strong></h3><p>' + parks[0].properties.address);
 
-        } else {    // what shows up in the info window if you are NOT hovering over a building
+        } else {    // what shows up in the info window if you are NOT hovering over a park
 
-            $('#info-window-body').html('<p>Not hovering over a <strong>building</strong> right now.</p>');
+            $('#info-window-body').html('<p>Hover over a <strong>park</strong> to learn more right now!!</p>');
             
         }
 
@@ -116,13 +114,8 @@ for (i=0; i<layers.length; i++) {
 // 11.01 starts here----------------------------------------------
 
 // SHOW/HIDE LAYERS
-// See example at https://www.mapbox.com/mapbox-gl-js/example/toggle-layers/
     
-    var layers = [  // an array of the layers you want to include in the layers control (layers to turn off and on)
-
-        // [layerMachineName, layerDisplayName]
-        // layerMachineName is the layer name as written in your Mapbox Studio map layers panel
-        // layerDisplayName is the way you want the layer's name to appear in the layers control on the website
+    var layers = [  
         ['urban-bird-refuge-cm2gm9', 'Bird Refuge'],     //
         ['recreation-and-parks-faciliti-16tbnc', 'Urban Parks'], //layer [1][1] is Parks
         ['arterial-streets-of-san-franc-18eylp', 'Arterial Street'],     
@@ -162,43 +155,42 @@ for (i=0; i<layers.length; i++) {
 
 // SCROLL TO ZOOM THROUGH SITES
     
-    // A JavaScript object containing all of the data for each site "chapter" (the sites to zoom to while scrolling)
     var chapters = {
-        'darden-towe': {
-            name: "Darden Towe Park",
-            description: "Ut nisl quam, fringilla efficitur elementum in, congue vel mi. Nullam consequat pharetra nibh, non accumsan nisl cursus sed. Pellentesque at ex lacus. Ut fringilla nunc id leo maximus ullamcorper. Donec volutpat placerat accumsan. Nulla id luctus diam. Aliquam tincidunt pulvinar mattis. Donec tempor, massa vel vehicula feugiat, diam sem suscipit nisi, eu tempor turpis lorem ac ipsum. Proin quis lectus mattis enim luctus faucibus sit amet vel metus. Etiam luctus nunc eget velit vestibulum posuere. Maecenas enim velit, elementum a suscipit vel, bibendum in odio. Nunc porta, eros nec vehicula pretium, tellus sapien fermentum risus, a pulvinar elit libero ut nisi. Nunc interdum lacus eu ornare dapibus. Suspendisse vitae diam eu turpis venenatis tempor. Ut sodales vel ex finibus facilisis. Nunc hendrerit, augue eget vulputate pellentesque, nibh erat imperdiet justo, id iaculis risus sem commodo urna.",
-            imagepath: "img/Darden Towe.jpg",
-            bearing: 0,
-            center: [ -78.450021, 38.042260],
-            zoom: 15.20,
-            pitch: 60
+        'sf-downtown': {
+            name: "SF Downtown",
+            description: "The Financial District is the city’s business center. Among the skyscrapers that dominate the skyline is the striking, spire-topped Transamerica Pyramid building. There is a wealth of happy-hour hot spots and elegant date-night destinations, including the classic Tadich Grill, the city’s oldest restaurant. The Jackson Square Historic District features remnants of the Barbary Coast, a 19th-century red-light district.",
+            imagepath: "img/SF Downtown.jpg",
+            bearing: -26.17,
+            center: [ -122.417, 37.781],
+            zoom: 14,
+            pitch: 57.50
         },
-        'mcguffey-park': {
-            name: "McGuffey Park",
-            description: "Aliquam mollis consequat libero, at egestas mi facilisis in. Maecenas sed porta arcu, nec mattis ligula. Sed a porta arcu. Aliquam vel nulla ac orci volutpat ullamcorper. Duis quis auctor urna. Duis id felis vel velit sagittis bibendum. Praesent rutrum velit vel est iaculis, et viverra sapien placerat. Suspendisse potenti. In interdum eu lorem ac cursus. Integer pulvinar lacus nec metus consequat vehicula. Aliquam efficitur vitae neque sed aliquam. Fusce interdum tempor neque vel interdum. Praesent dapibus sollicitudin arcu id finibus. Mauris risus magna, egestas in tristique et, egestas id arcu. Proin leo urna, sollicitudin non mattis in, tempor non nisi. Praesent commodo nibh sit amet dapibus egestas.",
-            imagepath: "img/McGuffey Park.jpg",
-            bearing: 0,
-            center: [ -78.481707, 38.033021],
-            zoom: 17.18,
-            pitch: 0
+        'golden-gate': {
+            name: "Golden Gate",
+            description: "The Golden Gate Bridge is a suspension bridge spanning the Golden Gate, the one-mile-wide (1.6 km) strait connecting San Francisco Bay and the Pacific Ocean. The structure links the American city of San Francisco, California – the northern tip of the San Francisco Peninsula – to Marin County, carrying both U.S. Route 101 and California State Route 1 across the strait. The bridge is one of the most internationally recognized symbols of San Francisco, California, and the United States. It has been declared one of the Wonders of the Modern World by the American Society of Civil Engineers.",
+            imagepath: "img/Golden Gate.jpg",
+            bearing: -40.57,
+            center: [ -122.471, 37.808],
+            zoom: 14.5,
+            pitch: 60.00
         },
-        'mcintire-park': {
-            name: "McIntire Park",
-            description: "Fusce iaculis nulla ut augue posuere, sit amet vestibulum quam elementum. Integer quis varius sem. Mauris fermentum tempus congue. Nulla facilisi. Vestibulum congue cursus tempor. Sed sit amet venenatis magna. Duis fermentum ligula eget auctor eleifend. Aenean ullamcorper arcu et diam pharetra, a pretium lectus porttitor. Donec non lacinia est. Nullam nec felis turpis. Curabitur hendrerit porta dolor, vitae vehicula est dictum id. Ut sollicitudin lectus est, et egestas felis tempus eu. Sed at dictum ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam et diam rutrum orci placerat euismod quis vitae dui. Praesent aliquam, quam ac suscipit laoreet, metus nulla mattis justo, et egestas lectus eros ac nulla.",
-            imagepath: "img/McIntire Park.jpg",
-            bearing: 20,
-            center: [ -78.475470, 38.047131],
-            zoom: 15,
-            pitch: 50
+        'lands-end': {
+            name: "Lands End",
+            description: "Lands End is a park in San Francisco within the Golden Gate National Recreation Area. It is a rocky and windswept shoreline at the mouth of the Golden Gate, situated between the Sutro District and Lincoln Park and abutting Fort Miley Military Reservation. A memorial to the USS San Francisco stands in the park.",
+            imagepath: "img/Lands End.jpg",
+            bearing: -31.40,
+            center: [ -122.498, 37.782],
+            zoom: 14,
+            pitch: 60.00
         },
-        'rivanna-river': {
-            name: "Rivanna River",
-            description: "Aenean rutrum finibus ex, quis mollis ante eleifend in. Vestibulum faucibus augue tellus, ac auctor tellus maximus sit amet. Nulla quis rutrum felis. Nullam a facilisis mi, in pretium orci. Vestibulum tempus odio et accumsan lacinia. Duis tempus, dolor sit amet tristique tempus, nisl neque tristique lacus, quis viverra est risus id quam. Donec condimentum massa vitae dui consectetur vehicula. Vivamus interdum nisi sed blandit fermentum. Proin a magna et est varius euismod non quis turpis. Cras rhoncus, nulla non faucibus vestibulum, felis nunc finibus nisi, dictum sollicitudin nibh leo non lorem. Donec ut nulla id nunc elementum luctus. Fusce sed justo ac metus pretium auctor ut eget magna. Vestibulum rhoncus nibh sit amet varius tincidunt.",
-            imagepath: "img/Rivanna River.jpg",
-            bearing: 0,
-            center: [ -78.458309, 38.034810],
-            zoom: 16.13,
-            pitch: 25
+        'fishermans-wharf': {
+            name: "Fisherman's Wharf",
+            description: "Fisherman’s Wharf, on the northern waterfront, is one of the city's busiest tourist areas. Souvenir shops and stalls selling crab and clam chowder in sourdough bread bowls appear at every turn, as do postcard views of the bay, Golden Gate and Alcatraz. There’s also a colony of sea lions to see and historic ships to tour. At Ghirardelli Square, boutiques and eateries reside in the famed former chocolate factory.",
+            imagepath: "img/Fisherman's Wharf.jpg",
+            bearing: -36.57,
+            center: [ -122.418, 37.807],
+            zoom: 15.32,
+            pitch: 60.00
         }
     };
 
