@@ -24,19 +24,19 @@ $(".modal>.close-button").on('click', function() { // Click event handler for th
 
 // Legend
 var layers = [ // an array of the possible values you want to show in your legend
-    '0 ft pedestrian',
-    '6 ft pedestrian',
-    '8 ft pedestrian',
-    '10 ft pedestrian',
-    '12 ft pedestrian'
+    'Wide (12 ft)',
+    'Comfortable (10 ft)',
+    'Chill (8 ft)',
+    'Limited(6 ft)',
+    'Unwelcomed (0 ft)'
 ];
 
 var colors = [ // an array of the color values for each legend item
-    '#ef4647',
-    '#f3af1c',
-    '#6ebe46',
+    '#4170b7',
     '#7dd0de',
-    '#4170b7'
+    '#6ebe46',
+    '#f3af1c',
+    '#ef4647'
 ];
 
 // for loop to create individual legend items
@@ -62,7 +62,7 @@ for (i=0; i<layers.length; i++) {
               
         if (parks.length > 0) {   // if statement to make sure the following code is only added to the info window if the mouse moves over a state
 
-            $('#info-window-body').html('<h3><strong>' + parks[0].properties.map_label + '</strong></h3><p>' + parks[0].properties.address);
+            $('#info-window-body').html('<h4><strong>' + parks[0].properties.map_label + '</strong></h4><p>' + parks[0].properties.address);
 
         } else {    // what shows up in the info window if you are NOT hovering over a park
 
@@ -116,11 +116,12 @@ for (i=0; i<layers.length; i++) {
 // SHOW/HIDE LAYERS
     
     var layers = [  
-        ['urban-bird-refuge-cm2gm9', 'Bird Refuge'],     //
-        ['recreation-and-parks-faciliti-16tbnc', 'Urban Parks'], //layer [1][1] is Parks
+        ['urban-bird-refuge-cm2gm9', 'Bird Refuge'],     
+        ['recreation-and-parks-faciliti-16tbnc', 'Urban Parks'], 
         ['arterial-streets-of-san-franc-18eylp', 'Arterial Street'],     
         ['bart-busroute-4miaaj', 'Bart Route'],
     ]; 
+
     
     // functions to perform when map loads
     map.on('load', function () {
@@ -128,7 +129,7 @@ for (i=0; i<layers.length; i++) {
         for (i=0; i<layers.length; i++) {
 
             // add a button for each layer
-            $("#layers-control").append("<a href='#' class='active button-default' id='" + layers[i][0] + "'>" + layers[i][1] + "</a>");
+            $("#layers-control").append("<a href='#' class='active button-default' id='" + layers[i][0] + "'>" + layers[i][1]  + "</a>");
         }
 
         // show/hide layers when button is clicked, it's a everntlistener because you have"on"
@@ -199,7 +200,7 @@ for (i=0; i<layers.length; i++) {
     for (var key in chapters) {
         console.log(key);
         var newChapter = $("<div class='chapter' id='" + key + "'></div>").appendTo("#chapters");
-        var chapterHTML = $("<h2>" + chapters[key]['name'] + "</h2><img src='" + chapters[key]['imagepath'] + "'><p>" + chapters[key]['description'] + "</p>").appendTo(newChapter);
+        var chapterHTML = $("<h4>" + chapters[key]['name'] + "</h4><img src='" + chapters[key]['imagepath'] + "'><p>" + chapters[key]['description'] + "</p>").appendTo(newChapter);
     }
 
 
@@ -251,3 +252,134 @@ for (i=0; i<layers.length; i++) {
 
         return  isTotal  || isPart ;
     }
+
+
+
+    //-------------------------------------
+
+// Timeline labels using d3
+
+    var width = 1000;
+    var height = 25;
+    var marginLeft = 15;
+    var marginRight = 15;
+
+    var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    
+    // Append SVG 
+    var svg = d3.select("#timeline-labels")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+    // Create scale
+    var scale = d3.scaleLinear()
+                  .domain([d3.min(data), d3.max(data)])
+                  .range([marginLeft, width-marginRight]); 
+
+    // Add scales to axis
+    var x_axis = d3.axisBottom()
+                   .scale(scale)
+                   // .tickFormat(d3.format("d"));  // Formats number as a date, e.g. 2008 instead of 2,008 
+
+    //Append group and insert axis
+    svg.append("g")
+       .call(x_axis);
+
+// Timeline map filter (timeline of building permit issue dates)
+    
+    // Create array of  dates from Mapbox layer (in this case, Charlottesville Building Permit application dates)
+    map.on('load', function () {
+
+        // Get all data from a layer using queryRenderedFeatures
+        var permits = map.queryRenderedFeatures(null, { // when you send "null" as the first argument, queryRenderedFeatures will return ALL of the features in the specified layers
+            layers: ["mta-path width"]
+        });
+
+        var permitDatesArray = [];
+        var permitYearsArray = [];
+
+        // push the values for a certain property to the variable declared above (e.g. push the permit dates to a permit date array)
+        for (i=0; i<permits.length; i++) {
+            var permitDate = permits[i].properties.width_min;
+            // The format of the date in this layer is a long string in the format "2012-10-19T04:00:00.000Z", and we are just looking for the 4-digit year, so the following line will trim each value in the array to just the first 4 characters.
+            var permitYear = permitDate.substring(0, 1);
+            
+
+
+            permitDatesArray.push(permitDate);    // Replace "AppliedDat" with the field you want to use for the timeline slider
+            permitYearsArray.push(permitYear);
+        }
+        console.log(permitDate);
+
+        // Create event listener for when the slider with id="timeslider" is moved
+        $("#timeslider").change(function(e) {
+            var year = this.value; 
+            var indices = [];
+
+            // Find the indices in the permitDatesArray array where the year from the time slider matches the year of the permit application
+            var matches = permitDatesArray.filter(function(item, i){
+                if (item.indexOf(year) >= 0) {
+                    indices.push(i);
+                }
+            });
+
+            // create filter 
+            var newFilters = ["any"];
+            
+            for (i=0; i<indices.length; i++) {
+                var filter = ["==","width_min", permitDatesArray[indices[i]]];
+                newFilters.push(filter);
+            }
+
+            map.setFilter("mta-path width", newFilters);
+        });
+
+
+// // Timeline map filter (timeline of building permit issue dates)
+    
+//     // Create array of  dates from Mapbox layer (in this case, Charlottesville Building Permit application dates)
+//     map.on('load', function () {
+
+//         // Get all data from a layer using queryRenderedFeatures
+//         var permits = map.queryRenderedFeatures(null, { // when you send "null" as the first argument, queryRenderedFeatures will return ALL of the features in the specified layers
+//             layers: ["mta-path width"]
+//         });
+
+//         var width_minArray= [];
+//         // var permitYearsArray = [];
+
+//         // push the values for a certain property to the variable declared above (e.g. push the permit dates to a permit date array)
+//         for (i=0; i<permits.length; i++) {
+//             var width_min = permits[i].properties.width_min;
+//             // // The format of the date in this layer is a long string in the format "2012-10-19T04:00:00.000Z", and we are just looking for the 4-digit year, so the following line will trim each value in the array to just the first 4 characters.
+//             // var permitYear = permitDate.substring(0, 4);
+            
+//             width_min.push(width_min);    // Replace "AppliedDat" with the field you want to use for the timeline slider
+//             // permitYearsArray.push(permitYear);
+//         }
+
+//         // Create event listener for when the slider with id="timeslider" is moved
+//         $("#timeslider").change(function(e) {
+//             var width = this.value; 
+//             var indices = [];
+
+//             // Find the indices in the permitDatesArray array where the year from the time slider matches the year of the permit application
+//             var matches = width_min.filter(function(item, i){
+//                 if (item.indexOf(width) >= 0) {
+//                     indices.push(i);
+//                 }
+//             });
+
+//             // create filter 
+//             var newFilters = ["any"];
+            
+//             for (i=0; i<indices.length; i++) {
+//                 var filter = ["==","width_min", width_min[indices[i]]];
+//                 newFilters.push(filter);
+//             }
+
+//             map.setFilter("mta-path width", newFilters);
+//         });
+
+    });
